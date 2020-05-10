@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">RoomVocabularyS1</string>
+    <string name="button_t_insert">insert</string>
+    <string name="button_t_clear">clear</string>
+    <string name="no_data">沒有單字</string>
+    <string name="switch_button">Card模式</string>
+    <string name="recyclerview_menu1">刪除</string>
+    <string name="recyclerview_menu2">無</string>
+    <string name="hint_input1">輸入英文單字</string>
+    <string name="hint_input2">輸入中文翻譯</string>
+    <string name="hint_input3">輸入KK音標(選填)</string>
+    <string name="button_query_ch">查詢翻譯</string>
+    <string name="button_quert">查詢音標</string>
+    <string name="button_save">儲存單字</string>
+    <string name="saved">儲存成功</string>
+    <string name="save_failed">儲存取消</string>
+    <string name="hint_input1_impty">輸入英文單字(必填寫)</string>
+    <string name="hint_input2_impty">輸入中文翻譯(必填寫)</string>
+    <string name="hint_input2_notfound">查無此字翻譯</string>
+    <string name="hint_input3_notfound">查無此字音標</string>
+    <string name="toolbar_title">VocabularyNote</string>
+    <string name="Default">1</string>
+    <string name="playaudio">查詢發音</string>
+    <string name="dialogtitle">選擇翻譯</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="listbyalphabetized">字母排序</string>
+    <string name="listbyid">新增順序</string>
+</resources>
