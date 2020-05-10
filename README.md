@@ -1,2 +1,2 @@
 # VocabularyNote
-使用R
+使用Room
