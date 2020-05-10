@@ -7,7 +7,9 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.roomvocabularys1.VocabularyViewModel;
 import com.example.roomvocabularys1.audio.OnEventListener;
+import com.example.roomvocabularys1.ui.Translation;
 import com.example.roomvocabularys1.utils.Utils;
 
 import org.jsoup.Jsoup;
@@ -20,11 +22,11 @@ import java.util.Arrays;
 
 public class QueryCH extends AsyncTask<Void, Void, Void> {
     private String word;
-    private StringBuffer wordch;
+    //private StringBuffer wordch;
     private OnEventListener callback;
     @SuppressLint("StaticFieldLeak")
     private Context context;
-    private ArrayList<String> items;
+    private ArrayList<Translation> items;
 
     public QueryCH(String word, OnEventListener callback, Context context) {
         this.word=word;
@@ -45,6 +47,7 @@ public class QueryCH extends AsyncTask<Void, Void, Void> {
             String url="https://tw.dictionary.search.yahoo.com/search?p="+word;
             Document doc= Jsoup.connect(url).get();
             //Elements element=doc.select("div[class=fz-16 fl-l dictionaryExplanation]");
+            //選基本的翻譯
             Elements element=doc.select("div[class=compList mb-25 p-rel]").select("li");
             //String test1=element.first().toString()+"++";
             //vocabularykk.setValue("123");
@@ -60,19 +63,28 @@ public class QueryCH extends AsyncTask<Void, Void, Void> {
             }*/
             String c1=""+element.size();
             Log.d("QueryCH",c1);
-            wordch=new StringBuffer();
+            //wordch=new StringBuffer();
+            items=new ArrayList<>();
+            if(element.size()!=0){
+                items.add(new Translation("選擇翻譯",false,"A"));
+            }
             for(int i=0;i<element.size();i++){
                 Elements divs = element.get(i).select("div");
                 //String part_of_speech = divs.get(0).text();
                 //String meaning = divs.get(1).text();
+                //divs裡的元素
                 if(divs.size()==2){
-                    wordch.append(divs.get(0).text()).append(divs.get(1).text()).append("\n");
+                    //詞性+翻譯
+                    //wordch.append(divs.get(0).text()).append(divs.get(1).text()).append("\n");
+                    items.add(new Translation(divs.get(0).text()+" "+divs.get(1).text(),false,"B"));
                 }
                 else{
-                    wordch.append(divs.get(0).text()).append("\n");
+                    //沒有詞性 EX:matter的名詞複數
+                    //wordch.append(divs.get(0).text()).append("\n");
+                    items.add(new Translation(divs.get(0).text(),false,"B"));
                 }
             }
-            Log.d("QueryCH",wordch.toString());
+            //Log.d("QueryCH",wordch.toString());
         }catch(IOException e){
             Log.e("QueryCH",e.toString());
         }
@@ -84,12 +96,12 @@ public class QueryCH extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         //vocabularych.setValue(wordch);
         if(callback!=null){
-            if(!wordch.toString().equals("")){
+            if(items.size()!=0){
                 //Log.d("QueryCH","onSuccess");
-                callback.onSuccess(wordch.toString());
+                callback.onSuccess(items);
             }
             else{
-                callback.onFailure("查無此字翻譯");
+                callback.onFailure(items);
                 //vocabularych.setValue(wordch);
             }
         }

@@ -32,6 +32,8 @@ import com.example.roomvocabularys1.VocabularyViewModel;
 import com.example.roomvocabularys1.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class InsertFragment extends Fragment{
     private static String LogTag = InsertFragment.class.getName();
     private EditText editText_en;
@@ -178,17 +180,18 @@ public class InsertFragment extends Fragment{
                     Log.d(LogTag,"editText_en NULL");
                 }
                 else{
-                    QueryCH queryCH=new QueryCH(editText_en.getText().toString(), new OnEventListener<String>() {
+                    QueryCH queryCH=new QueryCH(editText_en.getText().toString(), new OnEventListener<ArrayList<Translation>>() {
                         @Override
-                        public void onSuccess(String object) {
-                            ChoiceDialog choiceDialog= ChoiceDialog.newInstance(object);
+                        public void onSuccess(ArrayList<Translation> object) {
+                            vocabularyViewModel.getTranslationlist().setValue(object);
+                            ChoiceDialogCustom choiceDialogCustom= ChoiceDialogCustom.newInstance();
                             assert getFragmentManager() != null;
-                            choiceDialog.show(getFragmentManager(),"NoticeDialogFragment");
+                            choiceDialogCustom.show(getFragmentManager(),"NoticeDialogFragment");
                             //Log.e(LogTag,"NoticeDialogFragment");
                         }
 
                         @Override
-                        public void onFailure(String object) {
+                        public void onFailure(ArrayList<Translation> object) {
                             editText_ch.setHint(R.string.hint_input2_notfound);
                             editText_ch.setHintTextColor(getResources().getColor(R.color.colorred));
                         }

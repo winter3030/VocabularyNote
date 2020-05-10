@@ -7,7 +7,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.roomvocabularys1.database.Vocabulary;
+import com.example.roomvocabularys1.ui.Translation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //把查詢結果存到ViewModel中 UI在跟ViewModel層拿資料
@@ -16,6 +18,7 @@ public class VocabularyViewModel extends AndroidViewModel {
     private LiveData<List<Vocabulary>> LiveDatalist;
     private LiveData<List<Vocabulary>> LiveDatalistid;
     private MutableLiveData<String> vocabularych;
+    private MutableLiveData<ArrayList<Translation>> translationlist;
 
     public VocabularyViewModel(Application application){
         super(application);
@@ -28,6 +31,10 @@ public class VocabularyViewModel extends AndroidViewModel {
             vocabularych = new MutableLiveData<String>();
             //Log.d(LogTag,"new MutableLiveData" );
         }
+        if (translationlist == null) {
+            translationlist = new MutableLiveData<ArrayList<Translation>>();
+            //Log.d(LogTag,"new MutableLiveData" );
+        }
     }
 
     public MutableLiveData<String> getVocabularych() {
@@ -36,6 +43,10 @@ public class VocabularyViewModel extends AndroidViewModel {
 
     public void setVocabularych(MutableLiveData<String> vocabularych) {
         this.vocabularych = vocabularych;
+    }
+
+    public MutableLiveData<ArrayList<Translation>> getTranslationlist() {
+        return translationlist;
     }
 
     public LiveData<List<Vocabulary>> getLiveDatalist() {
