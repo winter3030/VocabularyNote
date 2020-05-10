@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,8 @@ public class ChoiceDialogCustom extends DialogFragment {
     private RecyclerView recyclerView;
     private MutableLiveData<ArrayList<Translation>> translationlist;
     private TranslationAdapter translationAdapter;
+    private Button button_ok;
+    private Button button_cancel;
 
     public static ChoiceDialogCustom newInstance() {
         ChoiceDialogCustom f = new ChoiceDialogCustom();
@@ -49,6 +52,21 @@ public class ChoiceDialogCustom extends DialogFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         translationAdapter=new TranslationAdapter(context,translationlist.getValue());
         recyclerView.setAdapter(translationAdapter);
+        button_ok=view.findViewById(R.id.button_ok);
+        button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vocabularyViewModel.getVocabularych().setValue(translationAdapter.getCheckedItems());
+                getDialog().dismiss();
+            }
+        });
+        button_cancel=view.findViewById(R.id.button_cancel);
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
         return view;
     }
 

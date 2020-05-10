@@ -13,16 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.roomvocabularys1.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class TranslationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_TITLE=1;
     private static final int TYPE_CONTENT=2;
     private Context context;
     private ArrayList<Translation> translationlist;
+    private Map<Integer, String> map;
+    private StringBuffer SelectedItems;
 
     public TranslationAdapter(Context context,ArrayList<Translation> translationlist) {
         this.context=context;
         this.translationlist = translationlist;
+        this.map = new HashMap<>();
     }
 
     //建立不同ViewHolder
@@ -64,16 +71,24 @@ public class TranslationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         else{
             ((ContentViewHolder)holder).checkedTextView.setText(translation.getChinese());
+            if(translation.getIscheck()){
+                ((ContentViewHolder)holder).checkedTextView.setChecked(true);
+            }
+            else {
+                ((ContentViewHolder)holder).checkedTextView.setChecked(false);
+            }
             ((ContentViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(!translation.getIscheck()){
                         ((ContentViewHolder)holder).checkedTextView.setChecked(true);
                         translation.setIscheck(true);
+                        map.put(position,translation.getChinese());
                     }
                     else {
                         ((ContentViewHolder)holder).checkedTextView.setChecked(false);
                         translation.setIscheck(false);
+                        map.remove(position);
                     }
                 }
             });
@@ -97,5 +112,23 @@ public class TranslationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         else {
             return TYPE_CONTENT;
         }
+    }
+
+    public String getCheckedItems(){
+        SelectedItems=new StringBuffer();
+        Set keySet = map.keySet();
+        Iterator it = keySet.iterator();
+        while(it.hasNext()){
+            String key = it.next().toString();
+            //有了鍵就可以通過map集合的get方法獲取其對應的値
+            String value = map.get(Integer.valueOf(key));
+            if(it.hasNext()){
+                SelectedItems.append(value).append("\n");
+            }
+            else{
+                SelectedItems.append(value);
+            }
+        }
+        return SelectedItems.toString();
     }
 }
