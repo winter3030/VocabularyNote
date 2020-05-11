@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     //private InsertFragment insertFragment;
     private String currentfragment="RFragment";
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -70,15 +70,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar =findViewById(R.id.toolbar);
+        /*Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.toolbar_title);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);*/
         if(savedInstanceState != null) {
             currentfragment=savedInstanceState.getString("currentfragment");
             recyclerviewFragment=manager.getFragment(savedInstanceState,"saveview1");
@@ -261,8 +261,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         //int count = manager.getBackStackEntryCount();
-        FloatingActionButton floatingActionButton=findViewById(R.id.button_t_insert);
-        floatingActionButton.show();
         //String t1=""+count;
         //Log.d(LogTag,t1);
         /*if (count == 0) {

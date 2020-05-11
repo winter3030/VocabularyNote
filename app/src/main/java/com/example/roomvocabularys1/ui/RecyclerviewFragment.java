@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -12,6 +15,8 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -51,6 +56,36 @@ public class RecyclerviewFragment extends Fragment {
         Log.d("RecyclerviewFragment", "onCreate");
         setRetainInstance(true);
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int menuItemId  = item.getItemId();
+        if(menuItemId==R.id.listbyalphabetized){
+            listbyalphabetized();
+            /*RecyclerviewFragment listmethod=(RecyclerviewFragment) getSupportFragmentManager().findFragmentByTag("RFragment");
+            if(listmethod!=null){
+                listmethod.listbyalphabetized();
+            }
+            else{
+                Utils.show_toast(getApplicationContext(),"無法重新整理");
+            }*/
+        }
+        if(menuItemId==R.id.listbyid){
+            listbyid();
+            /*RecyclerviewFragment listmethod=(RecyclerviewFragment) getSupportFragmentManager().findFragmentByTag("RFragment");
+            if(listmethod!=null){
+                listmethod.listbyid();
+            }
+            else{
+                Utils.show_toast(getApplicationContext(),"無法重新整理");
+            }*/
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +94,10 @@ public class RecyclerviewFragment extends Fragment {
             view=inflater.inflate(R.layout.recyclerview_fragment,container,false);
             Log.d("RecyclerviewFragment", "RCreateView");
         }
+        Toolbar toolbar =view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.toolbar_title);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
         //float animationscale = getResources().getDisplayMetrics().density;
         //viewback=((MainActivity) requireActivity()).get_backview();
         //改良版
@@ -96,7 +135,8 @@ public class RecyclerviewFragment extends Fragment {
             }
         });
         //insert
-        buttoninsert= getActivity().findViewById(R.id.button_t_insert);
+        //buttoninsert= getActivity().findViewById(R.id.button_t_insert);
+        buttoninsert=view.findViewById(R.id.button_t_insert);
         buttoninsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

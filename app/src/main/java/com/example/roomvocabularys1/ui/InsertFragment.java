@@ -44,7 +44,6 @@ public class InsertFragment extends Fragment{
     private Button button_query_ch;
     private VocabularyViewModel vocabularyViewModel;
     private MutableLiveData<String> vocabularykk;
-    private FloatingActionButton buttoninsert;
     private Button playaudio;
     private PlayAudio playAudio;
 
@@ -65,8 +64,6 @@ public class InsertFragment extends Fragment{
         editText_kk=view.findViewById(R.id.editText_kk);
         button_query_ch=view.findViewById(R.id.button_quert_ch);
         playaudio=view.findViewById(R.id.playaudio);
-        buttoninsert=getActivity().findViewById(R.id.button_t_insert);
-        buttoninsert.hide();
         //初始化MutableLiveData
         if (vocabularykk == null) {
             vocabularykk = new MutableLiveData<String>();
