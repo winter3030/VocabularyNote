@@ -46,13 +46,14 @@ public abstract class VocabularyDatabase extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            VocabularyDao dao = INSTANCE.getvocabularydao();
             // If you want to keep data through app restarts,
             // comment out the following block
             databaseWriteExecutor.execute(() -> {
+                NoteBookDao dao = INSTANCE.getnotebookdao();
                 // Populate the database in the background.
                 // If you want to start with more words, just add them.
-                dao.deleteAll();
+                NoteBook noteBook=new NoteBook("筆記本");
+                dao.insert(noteBook);
             });
         }
     };

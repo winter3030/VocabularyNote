@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.roomvocabularys1.database.NoteBook;
 import com.example.roomvocabularys1.database.Vocabulary;
 import com.example.roomvocabularys1.ui.Translation;
 
@@ -17,6 +18,7 @@ public class VocabularyViewModel extends AndroidViewModel {
     private VocabularyRepository vocabularyRepository;
     private LiveData<List<Vocabulary>> LiveDatalist;
     private LiveData<List<Vocabulary>> LiveDatalistid;
+    private LiveData<List<NoteBook>> LiveDatanotebookid;
     private MutableLiveData<String> vocabularych;
     private MutableLiveData<ArrayList<Translation>> translationlist;
 
@@ -26,6 +28,7 @@ public class VocabularyViewModel extends AndroidViewModel {
         vocabularyRepository=new VocabularyRepository(application);
         LiveDatalist=vocabularyRepository.getLiveDatalist();
         LiveDatalistid=vocabularyRepository.getLiveDatalistid();
+        LiveDatanotebookid=vocabularyRepository.getLiveDatanotebookid();
         //初始化MutableLiveData
         if (vocabularych == null) {
             vocabularych = new MutableLiveData<String>();
@@ -57,20 +60,26 @@ public class VocabularyViewModel extends AndroidViewModel {
         return LiveDatalistid;
     }
 
+    public LiveData<List<NoteBook>> getLiveDatanotebookid() {
+        return LiveDatanotebookid;
+    }
+
     //WHY?
+    //Vocabulary
     public void insert(Vocabulary... word) {
         vocabularyRepository.insert(word);
     }
-
     public void deleteAll() {
         vocabularyRepository.deleteAll();
     }
-
     public void delete(Vocabulary... word) {
         vocabularyRepository.delete(word);
     }
-
-    /*public void get_vocabularykk(String vocabulary){
-        vocabularyRepository.get_vocabularykk(vocabulary);
-    }*/
+    //NoteBook
+    public void insert_notebook(NoteBook... word) {
+        vocabularyRepository.insert_notebook(word);
+    }
+    public void delete_notebook(NoteBook... word) {
+        vocabularyRepository.delete_notebook(word);
+    }
 }

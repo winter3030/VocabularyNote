@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.roomvocabularys1.ui.InsertFragment;
+import com.example.roomvocabularys1.ui.NoteBookFragment;
 import com.example.roomvocabularys1.ui.RecyclerviewFragment;
 import com.example.roomvocabularys1.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     //private RecyclerView recyclerView;
     //private VocabularyAdapter vocabularyAdapter;
     private FragmentManager manager=getSupportFragmentManager();
-    private Fragment recyclerviewFragment=new RecyclerviewFragment();
-    private Fragment insertFragment=new InsertFragment();
+    private Fragment recyclerviewFragment;
+    private Fragment insertFragment;
+    private Fragment notebookfragment=new NoteBookFragment();
     //private RecyclerviewFragment recyclerviewFragment;
     //private InsertFragment insertFragment;
     private String currentfragment="RFragment";
@@ -81,12 +83,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);*/
         if(savedInstanceState != null) {
             currentfragment=savedInstanceState.getString("currentfragment");
-            recyclerviewFragment=manager.getFragment(savedInstanceState,"saveview1");
+            notebookfragment=manager.getFragment(savedInstanceState,"saveview1");
             //insertFragment=manager.getFragment(savedInstanceState,"saveview2");
-            manager.beginTransaction().show(recyclerviewFragment).commit();
+            manager.beginTransaction().show(notebookfragment).commit();
         }
         else{
-            manager.beginTransaction().add(R.id.fragment_container, recyclerviewFragment,"RFragment").commit();
+            manager.beginTransaction().add(R.id.fragment_container, notebookfragment,"NFragment").commit();
         }
 
 
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("currentfragment",currentfragment);
-        manager.putFragment(outState,"saveview1",recyclerviewFragment);
+        manager.putFragment(outState,"saveview1",notebookfragment);
         //manager.putFragment(outState,"saveview2",insertFragment);
     }
     //一開始是用List 每次更新介面都要呼叫updateview() 但這個方法會有問題
@@ -249,6 +251,12 @@ public class MainActivity extends AppCompatActivity {
         int count = manager.getBackStackEntryCount();
         //String t1=""+count;
         //Log.d(LogTag,t1);
+    }
+    public void show_recycleviewfragment(){
+        currentfragment="RFragment";
+        Log.d(LogTag,"now RFragment");
+        recyclerviewFragment =new RecyclerviewFragment();
+        manager.beginTransaction().addToBackStack("N_to_R").replace(R.id.fragment_container,recyclerviewFragment,"RFragment").commit();
     }
     //RecyclerviewFragment->insertfragment .addToBackStack("R_to_I")
     public void show_insertfragment(){
