@@ -17,6 +17,6 @@ public interface NoteBookDao {
     @Delete
     void delete(NoteBook... word);
 
-    @Query("SELECT * from notebook_table ORDER BY id DESC")
+    @Query("SELECT * from notebook_table ORDER BY id ASC")
     LiveData<List<NoteBook>> getIdNoteBook();
 }

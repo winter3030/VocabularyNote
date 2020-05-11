@@ -149,14 +149,27 @@ public class RecyclerviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Toolbar toolbar =view.findViewById(R.id.toolbar);
-        toolbar.setTitle(current_notebook);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle(current_notebook);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed();
+            }
+        });
         setHasOptionsMenu(true);
     }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         RecyclerviewFragmentContext=context;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        vocabularyViewModel.getPre_notebook().setValue(vocabularyViewModel.getCurrent_notebook().getValue());
     }
 
     public void listbyid(){
@@ -187,7 +200,7 @@ public class RecyclerviewFragment extends Fragment {
     }
 
     public void listbyalphabetized(){
-        LiveDatalist=vocabularyViewModel.getLiveDatalist();
+        LiveDatalist=vocabularyViewModel.queryLiveDatalist_type(current_notebook);
         LiveDatalist.observe(getViewLifecycleOwner(), new Observer<List<Vocabulary>>() {
             @Override
             public void onChanged(List<Vocabulary> vocabularies) {

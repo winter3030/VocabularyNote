@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment recyclerviewFragment;
     private Fragment insertFragment;
     private Fragment notebookfragment=new NoteBookFragment();
+    private VocabularyViewModel vocabularyViewModel;
     //private RecyclerviewFragment recyclerviewFragment;
     //private InsertFragment insertFragment;
     private String currentfragment="RFragment";
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         /*Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.toolbar_title);
         setSupportActionBar(toolbar);*/
+        //關聯ViewModel與Activity
+        vocabularyViewModel=new ViewModelProvider(this).get(VocabularyViewModel.class);
         if(savedInstanceState != null) {
             currentfragment=savedInstanceState.getString("currentfragment");
             notebookfragment=manager.getFragment(savedInstanceState,"saveview1");
@@ -247,11 +251,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
     //test
-    public void count_fragment(){
+    /*public void count_fragment(){
         int count = manager.getBackStackEntryCount();
         //String t1=""+count;
         //Log.d(LogTag,t1);
-    }
+    }*/
     public void show_recycleviewfragment(){
         currentfragment="RFragment";
         Log.d(LogTag,"now RFragment");
@@ -268,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        vocabularyViewModel.getPre_notebook().setValue(vocabularyViewModel.getCurrent_notebook().getValue());
         //int count = manager.getBackStackEntryCount();
         //String t1=""+count;
         //Log.d(LogTag,t1);

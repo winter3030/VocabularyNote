@@ -12,6 +12,7 @@ import com.example.roomvocabularys1.ui.Translation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //把查詢結果存到ViewModel中 UI在跟ViewModel層拿資料
 public class VocabularyViewModel extends AndroidViewModel {
@@ -22,12 +23,14 @@ public class VocabularyViewModel extends AndroidViewModel {
     private MutableLiveData<String> vocabularych;
     private MutableLiveData<ArrayList<Translation>> translationlist;
     private MutableLiveData<String> current_notebook;
+    private MutableLiveData<String> pre_notebook;
 
     public VocabularyViewModel(Application application){
         super(application);
         //初始化Repository
         vocabularyRepository=new VocabularyRepository(application);
-        LiveDatalist=vocabularyRepository.getLiveDatalist();
+        //改成動態
+        //LiveDatalist=vocabularyRepository.getLiveDatalist();
         //LiveDatalistid=vocabularyRepository.getLiveDatalistid();
         LiveDatanotebookid=vocabularyRepository.getLiveDatanotebookid();
         //初始化MutableLiveData
@@ -41,6 +44,11 @@ public class VocabularyViewModel extends AndroidViewModel {
         }
         if (current_notebook == null) {
             current_notebook = new MutableLiveData<String>();
+            //Log.d(LogTag,"new MutableLiveData" );
+        }
+        if (pre_notebook == null) {
+            pre_notebook = new MutableLiveData<String>();
+            pre_notebook.setValue("");
             //Log.d(LogTag,"new MutableLiveData" );
         }
     }
@@ -57,20 +65,31 @@ public class VocabularyViewModel extends AndroidViewModel {
         return translationlist;
     }
 
-    public LiveData<List<Vocabulary>> getLiveDatalist() {
+    /*public LiveData<List<Vocabulary>> getLiveDatalist() {
         return LiveDatalist;
-    }
-
-    public MutableLiveData<String> getCurrent_notebook() {
-        return current_notebook;
-    }
+    }*/
 
     /*public LiveData<List<Vocabulary>> getLiveDatalistid() {
             return LiveDatalistid;
         }*/
+    public MutableLiveData<String> getCurrent_notebook() {
+        return current_notebook;
+    }
+    public MutableLiveData<String> getPre_notebook() {
+        return pre_notebook;
+    }
     //動態查詢
+    public LiveData<List<Vocabulary>> queryLiveDatalist_type(String type) {
+        if(LiveDatalist==null || !current_notebook.getValue().contains(Objects.requireNonNull(pre_notebook.getValue()))){
+            LiveDatalist=vocabularyRepository.queryLiveDatalist_type(type);
+            return LiveDatalist;
+        }
+        else{
+            return LiveDatalist;
+        }
+    }
     public LiveData<List<Vocabulary>> queryLiveDatalistid_type(String type) {
-        if(LiveDatalistid==null){
+        if(LiveDatalistid==null|| !current_notebook.getValue().contains(Objects.requireNonNull(pre_notebook.getValue()))){
             LiveDatalistid=vocabularyRepository.queryLiveDatalistid_type(type);
             return LiveDatalistid;
         }

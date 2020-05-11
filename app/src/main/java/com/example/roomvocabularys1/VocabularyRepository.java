@@ -30,16 +30,16 @@ public class VocabularyRepository {
         //取得DAO
         vocabularyDao=vocabularyDatabase.getvocabularydao();
         noteBookDao=vocabularyDatabase.getnotebookdao();
-        //取得LiveData
-        LiveDatalist=vocabularyDao.getAlphabetizedVocabulary();
+        //取得LiveData >> 改成動態
+        //LiveDatalist=vocabularyDao.getAlphabetizedVocabulary();
         //LiveDatalistid=vocabularyDao.getIdVocabulary();
         LiveDatanotebookid=noteBookDao.getIdNoteBook();
     }
 
-    //getter LiveData
-    public LiveData<List<Vocabulary>> getLiveDatalist() {
+    //getter LiveData >> 改成動態
+    /*public LiveData<List<Vocabulary>> getLiveDatalist() {
         return LiveDatalist;
-    }
+    }*/
     /*public LiveData<List<Vocabulary>> getLiveDatalistid() {
         return LiveDatalistid;
     }*/
@@ -48,6 +48,10 @@ public class VocabularyRepository {
     }
 
     //動態查詢
+    public LiveData<List<Vocabulary>> queryLiveDatalist_type(String type) {
+        LiveDatalist=vocabularyDao.getAlphabetizedVocabulary_type(type);
+        return LiveDatalist;
+    }
     public LiveData<List<Vocabulary>> queryLiveDatalistid_type(String type) {
         LiveDatalistid=vocabularyDao.getIdVocabulary_type(type);
         return LiveDatalistid;

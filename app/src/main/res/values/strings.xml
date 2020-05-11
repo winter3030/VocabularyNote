@@ -29,4 +29,5 @@
     <string name="notebook_name">輸入筆記本名稱</string>
     <string name="notebook_dialog_title">新增筆記本</string>
     <string name="notebook_menu1">新增</string>
+    <string name="tootbar_insert">新增單字</string>
 </resources>

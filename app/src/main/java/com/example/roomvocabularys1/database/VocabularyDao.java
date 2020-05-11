@@ -35,4 +35,7 @@ public interface  VocabularyDao {
 
     @Query("SELECT * from vocabulary_table WHERE notebook_type = :type ORDER BY id DESC")
     LiveData<List<Vocabulary>> getIdVocabulary_type(String type);
+
+    @Query("SELECT * from vocabulary_table WHERE notebook_type = :type ORDER BY vocabulary_en ASC")
+    LiveData<List<Vocabulary>> getAlphabetizedVocabulary_type(String type);
 }
