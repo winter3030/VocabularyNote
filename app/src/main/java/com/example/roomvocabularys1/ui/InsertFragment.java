@@ -87,7 +87,6 @@ public class InsertFragment extends Fragment{
                 }
             }
         });
-        vocabularyViewModel.getVocabularych().setValue("");
         vocabularyViewModel.getVocabularych().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -142,6 +141,7 @@ public class InsertFragment extends Fragment{
                     String vocabulary_kk=editText_kk.getText().toString();
                     Vocabulary vocabulary=new Vocabulary(vocabulary_en,vocabulary_ch,vocabulary_kk);
                     vocabularyViewModel.insert(vocabulary);
+                    vocabularyViewModel.getVocabularych().setValue("");//清空
                     requireActivity().onBackPressed();
                 }
             }
