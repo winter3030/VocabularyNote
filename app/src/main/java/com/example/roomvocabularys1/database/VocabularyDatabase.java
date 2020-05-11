@@ -13,12 +13,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 //RoomDatabase
-@Database(entities = {Vocabulary.class}, version = 2)
+@Database(entities = {Vocabulary.class,NoteBook.class}, version = 3)
 public abstract class VocabularyDatabase extends RoomDatabase {
     //取得DAO物件
     //有多個Entity要有多個DAO
     //一個Entity要有一個DAO操作
     public abstract VocabularyDao getvocabularydao();
+    public abstract NoteBookDao getnotebookdao();
 
     //定義singleton防止同時打開多個Database實例
     private static volatile VocabularyDatabase INSTANCE;
@@ -33,6 +34,7 @@ public abstract class VocabularyDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             VocabularyDatabase.class, "vocabulary_database")
                             .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_2_3)
                             .build();
                 }
             }
@@ -59,6 +61,12 @@ public abstract class VocabularyDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE vocabulary_table ADD COLUMN vocabulary_kk VARCHAR(50)");
+        }
+    };
+    static final Migration MIGRATION_2_3=new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `notebook_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_name` TEXT NOT NULL)");
         }
     };
 }
