@@ -21,13 +21,14 @@ public class VocabularyViewModel extends AndroidViewModel {
     private LiveData<List<NoteBook>> LiveDatanotebookid;
     private MutableLiveData<String> vocabularych;
     private MutableLiveData<ArrayList<Translation>> translationlist;
+    private MutableLiveData<String> current_notebook;
 
     public VocabularyViewModel(Application application){
         super(application);
         //初始化Repository
         vocabularyRepository=new VocabularyRepository(application);
         LiveDatalist=vocabularyRepository.getLiveDatalist();
-        LiveDatalistid=vocabularyRepository.getLiveDatalistid();
+        //LiveDatalistid=vocabularyRepository.getLiveDatalistid();
         LiveDatanotebookid=vocabularyRepository.getLiveDatanotebookid();
         //初始化MutableLiveData
         if (vocabularych == null) {
@@ -36,6 +37,10 @@ public class VocabularyViewModel extends AndroidViewModel {
         }
         if (translationlist == null) {
             translationlist = new MutableLiveData<ArrayList<Translation>>();
+            //Log.d(LogTag,"new MutableLiveData" );
+        }
+        if (current_notebook == null) {
+            current_notebook = new MutableLiveData<String>();
             //Log.d(LogTag,"new MutableLiveData" );
         }
     }
@@ -56,8 +61,22 @@ public class VocabularyViewModel extends AndroidViewModel {
         return LiveDatalist;
     }
 
-    public LiveData<List<Vocabulary>> getLiveDatalistid() {
-        return LiveDatalistid;
+    public MutableLiveData<String> getCurrent_notebook() {
+        return current_notebook;
+    }
+
+    /*public LiveData<List<Vocabulary>> getLiveDatalistid() {
+            return LiveDatalistid;
+        }*/
+    //動態查詢
+    public LiveData<List<Vocabulary>> queryLiveDatalistid_type(String type) {
+        if(LiveDatalistid==null){
+            LiveDatalistid=vocabularyRepository.queryLiveDatalistid_type(type);
+            return LiveDatalistid;
+        }
+        else{
+            return LiveDatalistid;
+        }
     }
 
     public LiveData<List<NoteBook>> getLiveDatanotebookid() {

@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 //RoomDatabase
-@Database(entities = {Vocabulary.class,NoteBook.class}, version = 3)
+@Database(entities = {Vocabulary.class,NoteBook.class}, version = 4)
 public abstract class VocabularyDatabase extends RoomDatabase {
     //取得DAO物件
     //有多個Entity要有多個DAO
@@ -35,6 +35,7 @@ public abstract class VocabularyDatabase extends RoomDatabase {
                             VocabularyDatabase.class, "vocabulary_database")
                             .addMigrations(MIGRATION_1_2)
                             .addMigrations(MIGRATION_2_3)
+                            .addMigrations(MIGRATION_3_4)
                             .build();
                 }
             }
@@ -68,6 +69,12 @@ public abstract class VocabularyDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `notebook_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_name` TEXT NOT NULL)");
+        }
+    };
+    static final Migration MIGRATION_3_4=new Migration(3,4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE vocabulary_table ADD COLUMN notebook_type VARCHAR(50) NOT NULL DEFAULT '筆記本'");
         }
     };
 }

@@ -80,6 +80,7 @@ public class NoteBookAdapter extends RecyclerView.Adapter<NoteBookAdapter.NoteVi
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    vocabularyViewModel.getCurrent_notebook().setValue(noteBook.getNote_name());
                     ((MainActivity)context).show_recycleviewfragment();
                 }
             });

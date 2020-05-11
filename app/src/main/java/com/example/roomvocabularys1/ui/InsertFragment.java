@@ -46,6 +46,7 @@ public class InsertFragment extends Fragment{
     private MutableLiveData<String> vocabularykk;
     private Button playaudio;
     private PlayAudio playAudio;
+    private String current_notebook;
 
     @Nullable
     @Override
@@ -55,6 +56,7 @@ public class InsertFragment extends Fragment{
         //從ViewModel層取得資料
         //關聯ViewModel與Activity
         vocabularyViewModel=new ViewModelProvider(requireActivity()).get(VocabularyViewModel.class);
+        current_notebook=vocabularyViewModel.getCurrent_notebook().getValue();
         playAudio=new PlayAudio(getContext());
         editText_en=view.findViewById(R.id.editText_en);
         editText_ch=view.findViewById(R.id.editText_ch);
@@ -139,7 +141,7 @@ public class InsertFragment extends Fragment{
                     String vocabulary_en=editText_en.getText().toString();
                     String vocabulary_ch=editText_ch.getText().toString();
                     String vocabulary_kk=editText_kk.getText().toString();
-                    Vocabulary vocabulary=new Vocabulary(vocabulary_en,vocabulary_ch,vocabulary_kk);
+                    Vocabulary vocabulary=new Vocabulary(vocabulary_en,vocabulary_ch,vocabulary_kk,current_notebook);
                     vocabularyViewModel.insert(vocabulary);
                     vocabularyViewModel.getVocabularych().setValue("");//清空
                     requireActivity().onBackPressed();

@@ -26,4 +26,7 @@
     <string name="cancel">cancel</string>
     <string name="listbyalphabetized">字母排序</string>
     <string name="listbyid">新增順序</string>
+    <string name="notebook_name">輸入筆記本名稱</string>
+    <string name="notebook_dialog_title">新增筆記本</string>
+    <string name="notebook_menu1">新增</string>
 </resources>

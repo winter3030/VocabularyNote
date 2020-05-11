@@ -23,11 +23,16 @@ public class Vocabulary {
     @ColumnInfo(name = "vocabulary_kk")
     private String vocabulary_kk;
 
+    @NonNull
+    @ColumnInfo(name = "notebook_type")
+    private String notebook_type;
 
-    public Vocabulary(@NonNull String vocabulary,@NonNull String vocabulary_ch,String vocabulary_kk){
+
+    public Vocabulary(@NonNull String vocabulary,@NonNull String vocabulary_ch,String vocabulary_kk,@NonNull String notebook_type){
         this.vocabulary=vocabulary;
         this.vocabulary_ch=vocabulary_ch;
         this.vocabulary_kk=vocabulary_kk;
+        this.notebook_type=notebook_type;
     }
 
     public int getId() {
@@ -62,5 +67,14 @@ public class Vocabulary {
 
     public void setVocabulary_kk(String vocabulary_kk) {
         this.vocabulary_kk = vocabulary_kk;
+    }
+
+    @NonNull
+    public String getNotebook_type() {
+        return notebook_type;
+    }
+
+    public void setNotebook_type(@NonNull String notebook_type) {
+        this.notebook_type = notebook_type;
     }
 }

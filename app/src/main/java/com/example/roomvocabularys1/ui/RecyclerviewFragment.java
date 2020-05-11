@@ -43,6 +43,7 @@ public class RecyclerviewFragment extends Fragment {
     private VocabularyAdapter vocabularyAdapter;
     private Context RecyclerviewFragmentContext;
     private View view;
+    private String current_notebook;
 
     /*@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,23 +95,20 @@ public class RecyclerviewFragment extends Fragment {
             view=inflater.inflate(R.layout.recyclerview_fragment,container,false);
             Log.d("RecyclerviewFragment", "RCreateView");
         }
-        Toolbar toolbar =view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.toolbar_title);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
         //float animationscale = getResources().getDisplayMetrics().density;
         //viewback=((MainActivity) requireActivity()).get_backview();
         //改良版
         //從ViewModel層取得資料
         //關聯ViewModel與Activity
         vocabularyViewModel=new ViewModelProvider(requireActivity()).get(VocabularyViewModel.class);
+        current_notebook=vocabularyViewModel.getCurrent_notebook().getValue();
         //新增recyclerview
         recyclerView=view.findViewById(R.id.recyclerview);
         vocabularyAdapter=new VocabularyAdapter(RecyclerviewFragmentContext,vocabularyViewModel);
         recyclerView.setLayoutManager(new LinearLayoutManager(RecyclerviewFragmentContext));
         recyclerView.setAdapter(vocabularyAdapter);
         //UI->ViewModel->Repository->Dao 未改良前UI->Dao
-        LiveDatalist=vocabularyViewModel.getLiveDatalistid();
+        LiveDatalist=vocabularyViewModel.queryLiveDatalistid_type(current_notebook);
         LiveDatalist.observe(getViewLifecycleOwner(), new Observer<List<Vocabulary>>() {
             @Override
             public void onChanged(List<Vocabulary> vocabularies) {
@@ -150,6 +148,10 @@ public class RecyclerviewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar =view.findViewById(R.id.toolbar);
+        toolbar.setTitle(current_notebook);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
     }
     @Override
     public void onAttach(Context context) {
@@ -158,7 +160,7 @@ public class RecyclerviewFragment extends Fragment {
     }
 
     public void listbyid(){
-        LiveDatalist=vocabularyViewModel.getLiveDatalistid();
+        LiveDatalist=vocabularyViewModel.queryLiveDatalistid_type(current_notebook);
         LiveDatalist.observe(getViewLifecycleOwner(), new Observer<List<Vocabulary>>() {
             @Override
             public void onChanged(List<Vocabulary> vocabularies) {

@@ -4,11 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -47,6 +52,10 @@ public class NoteBookFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar =view.findViewById(R.id.toolbar_notebook);
+        toolbar.setTitle(R.string.toolbar_title);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
         //從ViewModel層取得資料
         //關聯ViewModel與Activity
         vocabularyViewModel=new ViewModelProvider(requireActivity()).get(VocabularyViewModel.class);
@@ -63,6 +72,22 @@ public class NoteBookFragment extends Fragment {
                 noteBookAdapter.notifyDataSetChanged();////set完告訴recyclerview資料更新
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.notebook_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int menuItemId  = item.getItemId();
+        if(menuItemId==R.id.menu1){
+            InsertNoteBookDialog insertNoteBookDialog= InsertNoteBookDialog.newInstance();
+            assert getFragmentManager() != null;
+            insertNoteBookDialog.show(getFragmentManager(),"NoteBookDialogFragment");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
